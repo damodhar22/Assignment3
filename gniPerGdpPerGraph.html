@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <!-- Bootstrap CSS -->
   <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
   <style>
 
   .axis path,
@@ -49,7 +50,7 @@
   </style>
 </head>
 <body>
-  <nav class="col-xl-2 col-lg-2" style="top:20">
+  <nav class="col-xl-2 col-lg-2" style="top:20px">
     <ul class="nav nav-pills nav-stacked nav-default">
       <li><a href="indGdpGraph.html">GDP growth of IND</a></li>
       <li><a href="gniGdpGraph.html">Top GDP-GNI Countries</a></li>
@@ -58,8 +59,8 @@
     </ul>
   </nav>
   <main class="container">
-    <h1 class="text-center">GDP and GNI percapita of top 15 countries</h1>
-    <div id="svg" class="text-center col-xs-9"></div>
+    <h1 class="text-center" style="font-family: 'Open Sans Condensed', sans-serif;">GDP and GNI percapita of top 15 countries</h1>
+    <div id="svg" class="text-center col-xs-10 well"></div>
     <script src="js/d3.min.js"></script>
     <script src="js/d3.tip.v0.6.3.js"></script>
     <script>
@@ -171,6 +172,7 @@
             .attr("y", 9)
             .attr("dy", ".35em")
             .style("text-anchor", "end")
+            .style("text-transform","capitalize")
             .text(function(d) { return d; });
           });
           </script>

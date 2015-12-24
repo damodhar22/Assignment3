@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <!-- Bootstrap CSS -->
   <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
   <title>Line Chart</title>
   <style>
 
@@ -39,8 +40,8 @@
     </ul>
   </nav>
   <main class="container">
-    <h1 class="text-center">GDP growth of India from 1960-2015</h1>
-    <div id="svg" class="text-center col-xs-9"></div>
+    <h1 class="text-center" style="font-family: 'Open Sans Condensed', sans-serif;">GDP growth of India from 1960-2015</h1>
+    <div id="svg" class="text-center col-xs-10 well"></div>
     <script src="http://d3js.org/d3.v3.js"></script>
     <script>
     d3.json("data/gdpIND.json",function(dataset){

@@ -103,8 +103,7 @@ rs.on('error',function(){
 function processTheFile(line){
   var row=line.split(',');
 
-  if(row[2]=="GDP at market prices (constant 2005 US$)" && notTheRegions(row[0]))
-  {
+  if(row[2]=="GDP at market prices (constant 2005 US$)" && notTheRegions(row[0])) {
     country=row[0];
     gdp=parseInt(Number(row[49]));
     gni=null;
