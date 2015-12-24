@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <!-- Bootstrap CSS -->
+  <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <title></title>
+  <style>
+
+  .axis path,
+  .axis line {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+  }
+
+  .line {
+    fill: none;
+    stroke: steelblue;
+    stroke-width: 1.5px;
+  }
+
+  </style>
+</head>
+<body>
+  <nav class="col-xl-2 col-lg-2" style="top:20px">
+    <ul class="nav nav-pills nav-stacked">
+      <li><a href="indGdpGraph.html">GDP growth of IND</a></li>
+      <li><a href="gniGdpGraph.html">Top GDP-GNI Countries</a></li>
+      <li><a href="gniPerGdpPerGraph.html">Top GDP-GNI Percapita Countries</a></li>
+      <li><a href="gdpPercapContinent.html">GDP Percapita of Continents</a></li>
+    </ul>
+  </nav>
+  <main class="container">
+    <h1 class="text-center">GDP percapita of Continents from 1960-2015</h1>
+    <div id="svg" class="text-center col-xs-9"></div>
+    <script src="js/d3.min.js"></script>
+    <script>
+    var margin = {top: 20, right: 100, bottom: 30, left: 60},
+    width = 960 - margin.left - margin.right,
+    height = 550 - margin.top - margin.bottom;
+
+    var x = d3.scale.linear()
+    .range([0, width]);
+
+    var y = d3.scale.linear()
+    .range([height, 0]);
+
+    var color = d3.scale.category10();
+
+    var xAxis = d3.svg.axis()
+    .scale(x)
+    .orient("bottom");
+
+    var yAxis = d3.svg.axis()
+    .scale(y)
+    .orient("left");
+
+    var line = d3.svg.line()
+    .interpolate("basis")
+    .x(function(d) { return x(d.year); })
+    .y(function(d) { return y(d.gdpPer); });
+
+    var svg = d3.select("#svg").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+    .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+    d3.json("data/gdpPerContJson.json", function(error, data) {
+      if (error) throw error;
+
+      x.domain([d3.min(data, function(d){ return d.year; }), d3.max(data, function(d){ return d.year; })]);
+
+      color.domain(d3.keys(data[0]).filter(function(key) { return key !== "year"; }));
+
+      var cities = color.domain().map(function(name) {
+        return {
+          name: name,
+          values: data.map(function(d) {
+            return {year: d.year, gdpPer: +d[name]};
+          })
+        };
+      });
+
+      y.domain([
+        d3.min(cities, function(c) { return d3.min(c.values, function(v) { return v.gdpPer; }); }),
+        d3.max(cities, function(c) { return d3.max(c.values, function(v) { return v.gdpPer; }); })
+      ]);
+
+      svg.append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + height + ")")
+      .call(xAxis);
+
+      svg.append("g")
+      .attr("class", "y axis")
+      .call(yAxis)
+      .append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 6)
+      .attr("dy", ".71em")
+      .style("text-anchor", "end")
+      .text("GDP Percapita");
+
+      var city = svg.selectAll(".city")
+      .data(cities)
+      .enter().append("g")
+      .attr("class", "city");
+
+      city.append("path")
+      .attr("class", "line")
+      .attr("d", function(d) { return line(d.values); })
+      .style("stroke", function(d) { return color(d.name); });
+
+      city.append("text")
+      .datum(function(d) { return {name: d.name, value: d.values[d.values.length - 1]}; })
+      .attr("transform", function(d) { return "translate(" + x(d.value.year) + "," + y(d.value.gdpPer) + ")"; })
+      .attr("x", 3)
+      .attr("dy", ".35em")
+      .text(function(d) { return d.name; });
+    });
+    </script>
+  </main>
+  <script src="bootstrap/js/jquery-1.11.3.min.js"></script>
+  <!-- Bootstrap JS -->
+  <script src="bootstrap/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,77 @@
+[
+    {
+        "country": "Monaco",
+        "gdpPer": 126599,
+        "gniPer": 126599
+    },
+    {
+        "country": "Liechtenstein",
+        "gdpPer": 104995,
+        "gniPer": 89697
+    },
+    {
+        "country": "Luxembourg",
+        "gdpPer": 79494,
+        "gniPer": 66542
+    },
+    {
+        "country": "Norway",
+        "gdpPer": 66775,
+        "gniPer": 67506
+    },
+    {
+        "country": "Channel Islands",
+        "gdpPer": 57209,
+        "gniPer": 55170
+    },
+    {
+        "country": "Iceland",
+        "gdpPer": 56445,
+        "gniPer": 54342
+    },
+    {
+        "country": "Switzerland",
+        "gdpPer": 54797,
+        "gniPer": 59478
+    },
+    {
+        "country": "Qatar",
+        "gdpPer": 53207,
+        "gniPer": 46377
+    },
+    {
+        "country": "Ireland",
+        "gdpPer": 50815,
+        "gniPer": 44118
+    },
+    {
+        "country": "Denmark",
+        "gdpPer": 48816,
+        "gniPer": 49188
+    },
+    {
+        "country": "San Marino",
+        "gdpPer": 47035,
+        "gniPer": 41251
+    },
+    {
+        "country": "United States",
+        "gdpPer": 44307,
+        "gniPer": 44741
+    },
+    {
+        "country": "Sweden",
+        "gdpPer": 43085,
+        "gniPer": 43667
+    },
+    {
+        "country": "Netherlands",
+        "gdpPer": 41577,
+        "gniPer": 41741
+    },
+    {
+        "country": "United Arab Emirates",
+        "gdpPer": 40298,
+        "gniPer": 40942
+    }
+]

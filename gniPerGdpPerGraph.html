@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <!-- Bootstrap CSS -->
+  <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+
+  .axis path,
+  .axis line {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+  }
+
+  .bar {
+    fill: steelblue;
+  }
+
+  .d3-tip {
+    line-height: 1;
+    font-weight: bold;
+    padding: 12px;
+    background: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    border-radius: 2px;
+  }
+
+  /* Creates a small triangle extender for the tooltip */
+  .d3-tip:after {
+    box-sizing: border-box;
+    display: inline;
+    font-size: 10px;
+    width: 100%;
+    line-height: 1;
+    color: rgba(0, 0, 0, 0.8);
+    content: "\25BC";
+    position: absolute;
+    text-align: center;
+  }
+
+  /* Style northward tooltips differently */
+  .d3-tip.n:after {
+    margin: -1px 0 0 0;
+    top: 100%;
+    left: 0;
+  }
+
+  </style>
+</head>
+<body>
+  <nav class="col-xl-2 col-lg-2" style="top:20">
+    <ul class="nav nav-pills nav-stacked nav-default">
+      <li><a href="indGdpGraph.html">GDP growth of IND</a></li>
+      <li><a href="gniGdpGraph.html">Top GDP-GNI Countries</a></li>
+      <li><a href="gniPerGdpPerGraph.html">Top GDP-GNI Percapita Countries</a></li>
+      <li><a href="gdpPercapContinent.html">GDP of Continents</a></li>
+    </ul>
+  </nav>
+  <main class="container">
+    <h1 class="text-center">GDP and GNI percapita of top 15 countries</h1>
+    <div id="svg" class="text-center col-xs-9"></div>
+    <script src="js/d3.min.js"></script>
+    <script src="js/d3.tip.v0.6.3.js"></script>
+    <script>
+
+    var margin = {top: 50, right: 20, bottom: 140, left: 50},
+    width = 800 - margin.left - margin.right,
+    height = 550 - margin.top - margin.bottom;
+
+    var x = d3.scale.ordinal()
+    .rangeRoundBands([0, width], .3);
+
+    var y = d3.scale.linear()
+    .rangeRound([height, 0]);
+
+    var color = d3.scale.ordinal()
+    .range(["#98abc5", "#8a89a6"]);
+
+    var xAxis = d3.svg.axis()
+    .scale(x)
+    .orient("bottom");
+
+    var yAxis = d3.svg.axis()
+    .scale(y)
+    .orient("left")
+    .tickFormat(d3.format(".2s"));
+
+    var tip = d3.tip()
+    .attr('class', 'd3-tip')
+    .offset([-10, 0])
+    .html(function(d) {
+      return "<strong>"+d.name+":</strong> <span style='color:red'>" + (d.y1-d.y0) + "</span>";
+    })
+
+    var svg = d3.select("#svg").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+    .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+    d3.json("data/gdpPerGniPer.json", function(error, data) {
+      if (error) throw error;
+      color.domain(d3.keys(data[0]).filter(function(key) {
+        return key !== "country"; }));
+
+        svg.call(tip);
+
+        data.forEach(function(d) {
+          var y0 = 0;
+          d.ages = color.domain().map(function(name) {
+            return {name: name,y0: y0, y1: y0 += +d[name]}; });
+            d.total = d.ages[d.ages.length - 1].y1;
+          });
+
+          x.domain(data.map(function(d) {
+            return d.country; }));
+
+            y.domain([0, d3.max(data, function(d) { return d.total; })]);
+
+            svg.append("g")
+            .attr("class", "x axis")
+            .attr("transform", "translate(0," + height + ")")
+            .call(xAxis)
+            .selectAll("text")
+            .style("text-anchor", "end")
+            .attr("dx", "-.8em")
+            .attr("dy", ".15em")
+            .attr("transform", "rotate(-65)" );;
+
+            svg.append("g")
+            .attr("class", "y axis")
+            .call(yAxis)
+            .append("text")
+            .attr("transform", "rotate(-90)")
+            .attr("y", 6)
+            .attr("dy", ".71em")
+            .style("text-anchor", "end")
+            .text("GDP Percapite+GNI Percapita");
+
+            var country = svg.selectAll(".country")
+            .data(data)
+            .enter().append("g")
+            .attr("class", "g")
+            .attr("transform", function(d) { return "translate(" + x(d.country) + ",0)"; });
+
+            country.selectAll("rect")
+            .data(function(d) { return d.ages; })
+            .enter().append("rect")
+            .attr("width", x.rangeBand())
+            .attr("y", function(d) { return y(d.y1); })
+            .attr("height", function(d) { return y(d.y0) - y(d.y1); })
+            .style("fill", function(d) { return color(d.name); })
+            .on('mouseover', tip.show)
+            .on('mouseout', tip.hide);
+
+            var legend = svg.selectAll(".legend")
+            .data(color.domain().slice().reverse())
+            .enter().append("g")
+            .attr("class", "legend")
+            .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
+
+            legend.append("rect")
+            .attr("x", width - 18)
+            .attr("width", 18)
+            .attr("height", 18)
+            .style("fill", color);
+
+            legend.append("text")
+            .attr("x", width - 24)
+            .attr("y", 9)
+            .attr("dy", ".35em")
+            .style("text-anchor", "end")
+            .text(function(d) { return d; });
+          });
+          </script>
+        </main>
+        <script src="bootstrap/js/jquery-1.11.3.min.js"></script>
+        <!-- Bootstrap JS -->
+        <script src="bootstrap/js/bootstrap.min.js"></script>
+      </body>
+      </html>

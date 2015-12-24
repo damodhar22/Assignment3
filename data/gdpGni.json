@@ -1,0 +1,77 @@
+[
+    {
+        "country": "United States",
+        "gdp": 13093726000000,
+        "gni": 13221776000000
+    },
+    {
+        "country": "Japan",
+        "gdp": 4571867441130,
+        "gni": 4678468710249
+    },
+    {
+        "country": "Germany",
+        "gdp": 2861410272354,
+        "gni": 2886828752642
+    },
+    {
+        "country": "United Kingdom",
+        "gdp": 2418941818181,
+        "gni": 2478278181818
+    },
+    {
+        "country": "China",
+        "gdp": 2268598904116,
+        "gni": 2252490145589
+    },
+    {
+        "country": "France",
+        "gdp": 2203678646934,
+        "gni": 2242208680512
+    },
+    {
+        "country": "Italy",
+        "gdp": 1853512452182,
+        "gni": 1855569456535
+    },
+    {
+        "country": "Canada",
+        "gdp": 1164144248225,
+        "gni": 1140194751609
+    },
+    {
+        "country": "Spain",
+        "gdp": 1157276458151,
+        "gni": 1140539733863
+    },
+    {
+        "country": "Brazil",
+        "gdp": 892103187643,
+        "gni": 856742523825
+    },
+    {
+        "country": "Mexico",
+        "gdp": 866346483685,
+        "gni": 850653641055
+    },
+    {
+        "country": "India",
+        "gdp": 834214699568,
+        "gni": 828315924677
+    },
+    {
+        "country": "Russian Federation",
+        "gdp": 764017107992,
+        "gni": 745490780702
+    },
+    {
+        "country": "Australia",
+        "gdp": 693075477371,
+        "gni": 667298902420
+    },
+    {
+        "country": "Netherlands",
+        "gdp": 678533764457,
+        "gni": 681222484765
+    }
+]
